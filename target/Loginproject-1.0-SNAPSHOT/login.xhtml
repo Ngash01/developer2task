@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login Form</title>
+    </h:head>
+    <style>
+        form {
+            max-width: 40%;
+            margin: 70px auto;
+        } 
+        body .ui-panelgrid .ui-panelgrid-cell{
+            border: none;
+            color: black;
+        }
+        
+        
+    </style>
+    <h:body>
+        <h:form>
+            <p:growl id="growl" >
+                <p:card class="card" title="LOGIN FORM"  style="color: blue; font-weight: bold" >
+                    <p:panelGrid columns="2" >
+                    <h:outputLabel for="email" value="Email" />
+                    <p:inputText  id="email" style="width: 100%; border-color: black; border: solid 2px" value="${login_controller.email}"/>
+                    <h:outputLabel for="password" value="Password:"/>
+                    <p:password id="password" style="width: 100%; border-color: black; border: solid 2px" value="${login_controller.password}"/>
+                </p:panelGrid>
+                    <p:panelGrid>
+                        <p:commandButton ajax="false" action="#{login_controller.login()}" value="Login" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="growl"/>
+                    </p:panelGrid>
+                </p:card>
+            </p:growl>
+        </h:form>
+    </h:body>
+</html>
+
+
+
+

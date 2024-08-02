@@ -1,0 +1,11 @@
+  <p:card class="card" title="LOGIN FORM"  style="color: blue; font-weight: bold" >
+                <p:panelGrid columns="2" >
+                <h:outputLabel for="email" value="Username:" />
+                <p:inputText  id="email" value="" style="width: 100%; border-color: black; border: solid 2px"/>
+                <h:outputLabel for="password" value="Password:"/>
+                <p:password id="password" value="" style="width: 100%; border-color: black; border: solid 2px"/>
+            </p:panelGrid>
+                <p:panelGrid>
+                    <p:commandButton ajax="false" action="#{employeeController}" value="Login" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;"/>
+                </p:panelGrid>
+            </p:card>

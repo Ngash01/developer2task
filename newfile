@@ -1,0 +1,15 @@
+
+Configuration con = new Configuration().configure("hibernate.cfg.xml");
+
+    SessionFactory sf = con.buildSessionFactory();
+
+    Session session = sf.openSession();
+
+    Transaction tx = session.beginTransaction();
+
+    session.save(employee);
+
+    tx.commit();
+
+    <h:commandButton value="get allEmployees" action="#{employeeController.}" />
+
