@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
     <h:head>
         <title>User Profile</title>
         <link rel="stylesheet" href="./css/user_profile.css"></link>
@@ -13,77 +15,96 @@
             border: none;
             color: black;
         }
+        
 
     </style>
     <script>
         let timeout;
-        
-        function resetTimeout(){
+
+        function resetTimeout() {
             clearTimeout(timeout);
-            timeout= setTimeout(()=>{
-                window.location.href='timeout.xhtml';
+            timeout = setTimeout(() => {
+                window.location.href = 'timeout.xhtml';
             }, 300000)
         }
-        window.onload=resetTimeout;
-        document.onmousemove=resetTimeout;
-        document.onkeypress=resetTimeout;
+        window.onload = resetTimeout;
+        document.onmousemove = resetTimeout;
+        document.onkeypress = resetTimeout;
     </script>
     <h:body>
-        <h:form>
-            <p:commandButton value="addUser" ajax="true" onclick="PF('dlgadduser').show()"/>
-            <p:commandButton value="logout" ajax="false" action="#{employeeController.logout()}" style="margin-left: 10px"/>
-            <p:dataTable var="employee" id="addusertable"  value="#{employeeController.fetchEmployees2()}">
-                <p:column headerText="id">
-                    <h:outputText value="#{employee.id}"/>
-                </p:column>
-                <p:column headerText="username">
-                    <h:outputText value="#{employee.username}"/>
-                </p:column>
-                <p:column headerText="email">
-                    <h:outputText value="#{employee.email}"/>
-                </p:column>
-                <p:column headerText="password">
-                    <h:outputText value="#{employee.password}"/>
-                </p:column>
-                <p:column headerText="Action">
-                    <p:commandButton value="Update" ajax="true"  onclick="PF('dlgupdateuser').show()"  update="addusertable"/>
-                    <p:commandButton value="Delete" ajax="false"  action="#{employeeController.deleteEmployee(employee)}"  style=" background-color: red; margin-left: 10px; cursor: pointer" update="addusertable" />
-                </p:column>
-            </p:dataTable>
-        </h:form>
-        <p:dialog widgetVar="dlgadduser" closeOnEscape="true" modal="true"  style="max-width: 40%">
-            <h:form >
-                <p:card class="card">
-                    <p:panelGrid columns="2" >
-                        <h:outputLabel for="username" value="Username" />
-                        <p:inputText  id="username" style="width: 100%; border-color: black; border: solid 2px" value="#{add_user_controller.username}"/>
-                        <h:outputLabel for="email" value="Email" />
-                        <p:inputText  id="email" style="width: 100%; border-color: black; border: solid 2px" value="#{add_user_controller.email}"/>
-                        <h:outputLabel for="password" value="Password:"/>
-                        <p:password id="password" style="width: 100%; border-color: black; border: solid 2px" value="#{add_user_controller.password}"/>
-                    </p:panelGrid>
-                    <p:panelGrid>
-                        <p:commandButton ajax="false" action="#{add_user_controller.saveData()}" value="Add" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
-                    </p:panelGrid>
-                </p:card>
-            </h:form>
-        </p:dialog>
-        <p:dialog widgetVar="dlgupdateuser" closeOnEscape="true" modal="true"  style="max-width: 40%">
-            <h:form >
-                <p:card class="card">
-                    <p:panelGrid columns="2" >
-                        <h:outputLabel for="username_" value="Username" />
-                        <p:inputText  id="username_" style="width: 100%; border-color: black; border: solid 2px" value="#{updateController.username}" />
-                        <h:outputLabel for="email_" value="Email" />
-                        <p:inputText  id="email1_" style="width: 100%; border-color: black; border: solid 2px"  value="#{updateController.email}" />
-                        <h:outputLabel for="password_" value="Password:"/>
-                        <p:password id="password_" style="width: 100%; border-color: black; border: solid 2px" value="#{updateController.password}" />
-                    </p:panelGrid>
-                    <p:panelGrid>
-                        <p:commandButton ajax="false" action="#{updateController.updateEmployee()}" value="Update" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
-                    </p:panelGrid>
-                </p:card>
-            </h:form>
-        </p:dialog>
+        <pe:layout style="max-width: 60%" >
+            <pe:layoutPane position="south" closable="true" size="50">
+
+            </pe:layoutPane>
+            <pe:layoutPane position="north"  size="100" closable="true" >
+                <h3 style="color: red; font-style: italic; font-weight: bolder;  text-align: center; margin-top: 2rem">USER MANAGEMENT PAGE</h3>
+            </pe:layoutPane>
+            <pe:layoutPane position="west" size="350" closable="true">
+                <h:form>
+                    <p:commandButton value="addUser" ajax="true" onclick="PF('dlgadduser').show()"/>
+                    <p:commandButton value="logout" ajax="false" action="#{employeeController.logout()}" style="margin-left: 10px"/>
+                </h:form>
+            </pe:layoutPane>
+            <pe:layoutPane position="center" closable="false" >
+                <h:form>
+                    
+                    <p:dataTable var="employee" id="addusertable" style="max-width: 100%"  value="#{employeeController.fetchEmployees2()}">
+                        <p:column headerText="id">
+                            <h:outputText value="#{employee.id}"/>
+                        </p:column>
+                        <p:column headerText="username">
+                            <h:outputText value="#{employee.username}"/>
+                        </p:column>
+                        <p:column headerText="email">
+                            <h:outputText value="#{employee.email}"/>
+                        </p:column>
+                        <p:column headerText="password">
+                            <h:outputText value="#{employee.password}"/>
+                        </p:column>
+                        <p:column headerText="Action">
+                            <p:commandButton value="Update" ajax="true"  onclick="PF('dlgupdateuser').show()"  update="addusertable"/>
+                            <p:commandButton value="Delete" ajax="false"  action="#{employeeController.deleteEmployee(employee)}"  style=" background-color: red; margin-left: 10px; cursor: pointer" update="addusertable" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+              </pe:layoutPane>
+                <p:dialog widgetVar="dlgadduser" closeOnEscape="true"   style="max-width: 40%">
+                    <h:form >
+                        <p:card class="card">
+                            <p:panelGrid columns="2" >
+                                <h:outputLabel for="username" value="Username" />
+                                <p:inputText  id="username" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                                <h:outputLabel for="email" value="Email" />
+                                <p:inputText  id="email" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                                <h:outputLabel for="password" value="Password:"/>
+                                <p:password id="password" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                            </p:panelGrid>
+                            <p:panelGrid>
+                                <p:commandButton ajax="false" action="#{add_user_controller.saveData()}" value="Add" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
+                            </p:panelGrid>
+                        </p:card>
+                    </h:form>
+                </p:dialog>
+                <p:dialog widgetVar="dlgupdateuser" closeOnEscape="true" modal="true"    style="max-width: 40%;">
+                    <h:form >
+                        <p:card class="card">
+                            <p:panelGrid columns="2" >
+                                <h:outputLabel for="username_" value="Username" />
+                                <p:inputText  id="username_" style="width: 100%; border-color: black; border: solid 2px" />
+                                <h:outputLabel for="email_" value="Email" />
+                                <p:inputText  id="email1_" style="width: 100%; border-color: black; border: solid 2px"   />
+                                <h:outputLabel for="password_" value="Password:"/>
+                                <p:password id="password_" style="width: 100%; border-color: black; border: solid 2px"  />
+                            </p:panelGrid>
+                            <p:panelGrid>
+                                <p:commandButton ajax="false" action="#{updateController.updateEmployee()}" value="Update" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
+                            </p:panelGrid>
+                        </p:card>
+                    </h:form>
+                </p:dialog>
+             <pe:layoutPane position="east"  size="350" closable="true">
+                
+            </pe:layoutPane>
+        </pe:layout>
     </h:body>
 </html>
