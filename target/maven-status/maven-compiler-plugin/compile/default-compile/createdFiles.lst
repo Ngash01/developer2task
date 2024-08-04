@@ -1,8 +1,7 @@
 ke/co/mspace/loginproject/filter/SessionTimeoutFilter.class
-ke/co/mspace/loginproject/controller/updateController.class
 ke/co/mspace/loginproject/controller/LoginController.class
 ke/co/mspace/loginproject/controller/EmployeeController.class
-ke/co/mspace/loginproject/util/EmployeeUtil.class
 ke/co/mspace/loginproject/JakartaRestConfiguration.class
+ke/co/mspace/loginproject/util/EmployeeUtil.class
 ke/co/mspace/loginproject/controller/AddUserController.class
 ke/co/mspace/loginproject/model/Employee.class

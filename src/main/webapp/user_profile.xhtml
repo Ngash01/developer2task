@@ -46,7 +46,7 @@
                 </h:form>
             </pe:layoutPane>
             <pe:layoutPane position="center" closable="false" >
-                <h:form>
+                <h:form id="mainForm">
                     
                     <p:dataTable var="employee" id="addusertable" style="max-width: 100%"  value="#{employeeController.fetchEmployees2()}">
                         <p:column headerText="id">
@@ -62,22 +62,27 @@
                             <h:outputText value="#{employee.password}"/>
                         </p:column>
                         <p:column headerText="Action">
-                            <p:commandButton value="Update" ajax="true"  onclick="PF('dlgupdateuser').show()"  update="addusertable"/>
+                            <p:commandButton value="Update" ajax="true"  
+                                             onclick="PF('dlgupdateuser').show()"  
+                                             process="@this"
+                                             update="updateUserFrm:username_ updateUserFrm:email1_ updateUserFrm:password_ updateUserFrm:id_"
+                                             action="#{employeeController.setSelectedEmployee2(employee)}"
+                                             />
                             <p:commandButton value="Delete" ajax="false"  action="#{employeeController.deleteEmployee(employee)}"  style=" background-color: red; margin-left: 10px; cursor: pointer" update="addusertable" />
                         </p:column>
                     </p:dataTable>
                 </h:form>
               </pe:layoutPane>
-                <p:dialog widgetVar="dlgadduser" closeOnEscape="true"   style="max-width: 40%">
-                    <h:form >
+            <p:dialog widgetVar="dlgadduser" header="New User" closeOnEscape="true"   style="max-width: 40%">
+                    <h:form id="adduserfrm">
                         <p:card class="card">
                             <p:panelGrid columns="2" >
                                 <h:outputLabel for="username" value="Username" />
-                                <p:inputText  id="username" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                                <p:inputText  id="username" value="#{add_user_controller.username}" style="width: 100%; border-color: black; border: solid 2px" required="true" />
                                 <h:outputLabel for="email" value="Email" />
-                                <p:inputText  id="email" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                                <p:inputText  id="email"  value="#{add_user_controller.email}" style="width: 100%; border-color: black; border: solid 2px" required="true" />
                                 <h:outputLabel for="password" value="Password:"/>
-                                <p:password id="password" style="width: 100%; border-color: black; border: solid 2px" required="true" />
+                                <p:password id="password" value="#{add_user_controller.password}" style="width: 100%; border-color: black; border: solid 2px" required="true" />
                             </p:panelGrid>
                             <p:panelGrid>
                                 <p:commandButton ajax="false" action="#{add_user_controller.saveData()}" value="Add" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
@@ -85,19 +90,21 @@
                         </p:card>
                     </h:form>
                 </p:dialog>
-                <p:dialog widgetVar="dlgupdateuser" closeOnEscape="true" modal="true"    style="max-width: 40%;">
-                    <h:form >
+            <p:dialog widgetVar="dlgupdateuser" closeOnEscape="true" modal="true"  header="Update"   style="max-width: 40%;">
+                    <h:form id="updateUserFrm">
                         <p:card class="card">
                             <p:panelGrid columns="2" >
+                                <h:outputLabel for="id_" value="Id" style="color:gray" />
+                                <p:inputText  id="id_" disabled="true" value="#{employeeController.selectedEmployee2.id}" style="width: 100%; border-color: black; border: solid 2px"  />
                                 <h:outputLabel for="username_" value="Username" />
-                                <p:inputText  id="username_" style="width: 100%; border-color: black; border: solid 2px" />
-                                <h:outputLabel for="email_" value="Email" />
-                                <p:inputText  id="email1_" style="width: 100%; border-color: black; border: solid 2px"   />
+                                <p:inputText  id="username_"  value="#{employeeController.selectedEmployee2.username}" style="width: 100%; border-color: black; border: solid 2px"  />
+                                <h:outputLabel for="email1_" value="Email" />
+                                <p:inputText  id="email1_" value="#{employeeController.selectedEmployee2.email}" style="width: 100%; border-color: black; border: solid 2px"   />
                                 <h:outputLabel for="password_" value="Password:"/>
-                                <p:password id="password_" style="width: 100%; border-color: black; border: solid 2px"  />
+                                <p:password id="password_" value="#{employeeController.selectedEmployee2.password}" style="width: 100%; border-color: black; border: solid 2px"  />
                             </p:panelGrid>
                             <p:panelGrid>
-                                <p:commandButton ajax="false" action="#{updateController.updateEmployee()}" value="Update" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
+                                <p:commandButton ajax="false" action="#{employeeController.updateEmployee()}" value="Update" style="width: 100%; padding: 4px; background-color: #1d29d8; cursor: pointer;" update="addusertable"/>
                             </p:panelGrid>
                         </p:card>
                     </h:form>

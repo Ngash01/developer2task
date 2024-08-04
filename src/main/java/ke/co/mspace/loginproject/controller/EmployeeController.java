@@ -16,6 +16,7 @@ import ke.co.mspace.loginproject.model.Employee;
 import ke.co.mspace.loginproject.util.EmployeeUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 
 @ViewScoped
@@ -26,9 +27,13 @@ public class EmployeeController implements Serializable {
 //   autowire the session management utility class 
     @Inject
     private EmployeeUtil employeeUtil;
+    
+    private Employee employee;
+    
     private List<Map<String, Object>> allnewEmployees = new ArrayList<>();
-     private Long lastActiveTime;
-
+    
+    private Employee selectedEmployee2;
+    
     public List<Map<String, Object>> getAllnewEmployees() {
         return allnewEmployees;
     }
@@ -37,30 +42,44 @@ public class EmployeeController implements Serializable {
         this.allnewEmployees = allnewEmployees;
     }
     
-
     public EmployeeUtil getEmployeeUtil() {
         return employeeUtil;
     }
 
+    public Employee getSelectedEmployee2() {
+        return selectedEmployee2;
+    }
 
+    public void setSelectedEmployee2(Employee selectedEmployee2) {
+        this.selectedEmployee2 = selectedEmployee2;
+    }
+
+    
 
     
 //    update an employee
-    public String updateEmployee(Employee employee){
-        try(Session session = employeeUtil.getSession()){
-            
+    public void updateEmployee(){
+        try(Session session = employeeUtil.getSession()){       
             
             Transaction tx = session.beginTransaction();
             
-            session.saveOrUpdate(employee);
+            Query query = session.createQuery("UPDATE Employee SET email=:email, username=:username, password=:password WHERE id=:id");
+            
+            query.setParameter("email", selectedEmployee2.getEmail());
+            query.setParameter("username", selectedEmployee2.getUsername());
+            query.setParameter("password", selectedEmployee2.getPassword());
+            query.setParameter("id", selectedEmployee2.getId());
+            
+            int status = query.executeUpdate();
+            
+            System.out.println("update status: " + status);
             
             tx.commit();
 
             
         }catch(Exception e){
-            System.out.println("An error occured while updating " + e);
+            System.out.println("An error occured while updating employee: " + e);
         }
-        return "employee updated successfully!";
     }
     
 //    Delete an employee
@@ -120,6 +139,7 @@ public class EmployeeController implements Serializable {
         
     }
      
+//     fetch all employees and return a list
      public List<Employee> fetchEmployees2() {
          
          try(Session session = employeeUtil.getSession()) {
